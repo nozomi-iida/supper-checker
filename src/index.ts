@@ -1,19 +1,20 @@
-const https = require("https")
-const express = require("express")
+import express, { Request, Response } from 'express';
+import * as https from "https";
 const app = express()
-const PORT = process.env.PORT || 3000
-const TOKEN = process.env.LINE_ACCESS_TOKEN
+const PORT = process.env['PORT'] || 3000
+const TOKEN = process.env['LINE_ACCESS_TOKEN']
 
+require('dotenv').config();
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
-app.get("/", (req, res) => {
+app.get("/", (_: Request, res: Response) => {
   res.sendStatus(200)
 });
 
-app.post("/webhook", function(req, res) {
+app.post("/webhook", function(req: Request, res: Response) {
   res.send("HTTP POST request sent to the webhook URL!")
   // If the user sends a message to your bot, send a reply message
   if (req.body.events[0].type === "message") {
