@@ -3,8 +3,8 @@ import * as https from "https";
 const app = express()
 const PORT = process.env['PORT'] || 3000
 const TOKEN = process.env['LINE_ACCESS_TOKEN']
-
-require('dotenv').config();
+import dotenv from "dotenv"
+dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
