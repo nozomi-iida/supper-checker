@@ -1,19 +1,13 @@
-const https = require("https")
+const https = require("https");
 const express = require("express")
-const app = express()
-const PORT = process.env.PORT || 3000
+const router = express.Router()
 const TOKEN = process.env.LINE_ACCESS_TOKEN
 
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
+router.get("/", (req, res) => {
+  res.send("HTTP GET request for webHook")
+})
 
-app.get("/", (req, res) => {
-  res.sendStatus(200)
-});
-
-app.post("/webhook", function(req, res) {
+router.post("/", (req, res) => {
   res.send("HTTP POST request sent to the webhook URL!")
   // If the user sends a message to your bot, send a reply message
   if (req.body.events[0].type === "message") {
@@ -40,7 +34,7 @@ app.post("/webhook", function(req, res) {
 
     // Options to pass into the request
     const webhookOptions = {
-      "hostname": "api.line.me",
+      "hostname": "routes.line.me",
       "path": "/v2/bot/message/reply",
       "method": "POST",
       "headers": headers,
@@ -65,6 +59,4 @@ app.post("/webhook", function(req, res) {
   }
 })
 
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`)
-})
+module.exports = router
