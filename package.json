@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "tsc": "tsc",
-    "build": "npm-run-all clean tsc",
-    "start": "npm run build && node .",
+    "build": "yarn clean && yarn tsc",
+    "start": "yarn build && node .",
     "dev": "ts-node-dev --respawn src/index.ts"
   },
   "repository": "ssh://git@github.com/nozomi-iida/supper-checker.git",
