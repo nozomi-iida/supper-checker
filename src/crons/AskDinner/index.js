@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const utils = require('../../utils');
 
 const AskDinner = () => {
-  cron.schedule('0 0 12 * * *', () => {
+  cron.schedule('0 */1 * * * *', () => {
     const message = {
       "type": "template",
       "altText": "ask today's dinner",
