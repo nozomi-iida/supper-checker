@@ -1,5 +1,6 @@
 const https = require("https");
-const express = require("express")
+const express = require("express");
+const  utils = require("../../utils")
 const router = express.Router()
 const TOKEN = process.env.LINE_ACCESS_TOKEN
 
@@ -8,54 +9,22 @@ router.get("/", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-  res.send("HTTP POST request sent to the webhook URL!")
-  // If the user sends a message to your bot, send a reply message
-  if (req.body.events[0].type === "message") {
-    // Message data, must be stringified
-    const dataString = JSON.stringify({
-      replyToken: req.body.events[0].replyToken,
-      messages: [
-        {
-          "type": "text",
-          "text": "Hello, user"
-        },
-        {
-          "type": "text",
-          "text": "May I help you?"
-        }
-      ]
-    })
+  res.send("Check webhook")
+  const replyToken = req.body.events[0].replyToken;
 
-    // Request header
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + TOKEN
+  const returnIds = (e) => {
+    const message = {
+      type: "text",
+      text: `group_id: ${e.source.groupId},\nuser_id: ${e.source.userId}`
     }
 
-    // Options to pass into the request
-    const webhookOptions = {
-      "hostname": "routes.line.me",
-      "path": "/v2/bot/message/reply",
-      "method": "POST",
-      "headers": headers,
-      "body": dataString
-    }
-
-    // Define request
-    const request = https.request(webhookOptions, (res) => {
-      res.on("data", (d) => {
-        process.stdout.write(d)
-      })
+    utils.client.replyMessage(replyToken, message).catch(e => {
+      console.log(e)
     })
+  }
 
-    // Handle error
-    request.on("error", (err) => {
-      console.error(err)
-    })
-
-    // Send data
-    request.write(dataString)
-    request.end()
+  if (req.body.events[0].message.text.includes("ids")) {
+    returnIds(req.body.events[0])
   }
 })
 
