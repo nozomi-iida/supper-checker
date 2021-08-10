@@ -24,7 +24,9 @@ const AskDinner = () => {
       }
     }
 
-    utils.client.pushMessage("C518e72aaa826ceff524df2d1eae28543", message).catch(e => {
+    utils.client.pushMessage("C518e72aaa826ceff524df2d1eae28543", message).then(() => {
+      console.log("success!")
+    }).catch(e => {
       console.log(`error: ${e}`)
     })
   });
