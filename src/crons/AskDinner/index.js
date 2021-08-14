@@ -29,6 +29,8 @@ const AskDinner = () => {
     }).catch(e => {
       console.log(`error: ${e}`)
     })
+  }, {
+    timezone: "Asia/Tokyo"
   });
 }
 
